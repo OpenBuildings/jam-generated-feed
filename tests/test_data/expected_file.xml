@@ -1,1 +1,10 @@
-sdf
+<products>
+	<item>
+		<name>Chair</name>
+		<price>290.4 GBP</price>
+	</item>
+	<item>
+		<name>Rug</name>
+		<price>30 GBP</price>
+	</item>
+</products>

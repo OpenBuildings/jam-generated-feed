@@ -14,11 +14,14 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 
 	public function build_validation(Validation $validation)
 	{
-		$feeds = array_keys(Kohana::$config->load('jam-generated-feed'));
-
 		return parent::build_validation($validation)
-			->rule('name', 'required')
-			->rule('name', 'in_array', array(':value', $feeds));
+			->rule('name', 'not_empty')
+			->rule('name', array($this, 'config_exists'));
+	}
+
+	public function config_exists($name)
+	{
+		return (bool) Kohana::$config->load('jam-generated-feed.'.$name);
 	}
 
 	protected function _execute(array $options)
@@ -29,17 +32,17 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 
 		$file = DOCROOT.$config['file'];
 
-		CLI::write('Generating (options: '.json_encode($config).')');
+		Minion_CLI::write('Generating '.json_encode($config));
 
 		$content = $this->feed_content($config['model'], $config['filter'], $config['view']);
 
-		CLI::write('Done.');
+		Minion_CLI::write('Done.');
 
-		CLI::write('Saving feed content to '.Debug::file($file));		
+		Minion_CLI::write('Saving feed content to '.Debug::path($file));		
 
 		file_put_contents($file, $content);
 
-		CLI::write('Done.');
+		Minion_CLI::write('Done.');
 	}
 
 	public function config($name)
@@ -49,8 +52,8 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 		if ( ! $config)
 			throw new Kohana_Exception('No Feed configuration named :name, put one in config/jam-generated-feed.php file', array(':name' => $name));
 
-		if (($missing_keys = array_diff(array('model', 'view', 'file'), array_keys($config)))
-			throw new Kohana_Exception('Missing keys in config file: :missing_keys', array(':missing_keys' => $missing_keys));
+		if (($missing_keys = array_diff(array('model', 'view', 'file'), array_keys($config))))
+			throw new Kohana_Exception('Missing keys in config :name: :missing_keys', array(':name' => $name, ':missing_keys' => join(', ', $missing_keys)));
 
 		return $config;
 	}
@@ -64,6 +67,6 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 			$collection->{$filter}();
 		}
 
-		return View::factory($view, array('colleciton' => $colleciton));
+		return View::factory($view, array('collection' => $collection))->render();
 	}
 }
