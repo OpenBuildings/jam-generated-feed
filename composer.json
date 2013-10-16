@@ -1,0 +1,23 @@
+{
+	"name": "openbuildings/jam-generated-feed",
+	"type": "kohana-module",
+	"description": "A module to generate xml files based on a jam collection",
+	"keywords": ["kohana", "feed", "xml", "list", "generate", "cache"],
+	"homepage": "https://github.com/OpenBuildings/jam-generated-feed",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Ivan Kerin",
+			"email": "ivan@openbuildings.com",
+			"role": "Author"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"composer/installers": "*",
+		"openbuildings/jam": "0.4.*",
+	},
+	"require-dev": {
+		"openbuildings/kohana-test-bootsrap": "0.1.*"
+	}
+}
