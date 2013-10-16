@@ -12,7 +12,7 @@ class Task_Feed_GenerateTest extends Testcase_Extended {
 	{
 		$task = Minion_Task::factory(array('feed:generate'));
 
-		$content = $task->feed_content('product', NULL, 'test/feedtest');
+		$content = $task->feed_content('product', array(), 'test/feedtest');
 
 		$expected = <<<CONTENT
 <products>
@@ -41,7 +41,7 @@ CONTENT;
 	{
 		$task = Minion_Task::factory(array('feed:generate'));
 
-		$content = $task->feed_content('product', 'feed_test', 'test/feedtest');
+		$content = $task->feed_content('product', array('feed_test'), 'test/feedtest');
 
 		$expected = <<<CONTENT
 <products>

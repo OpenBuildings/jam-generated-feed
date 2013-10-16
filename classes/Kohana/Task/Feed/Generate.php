@@ -34,7 +34,9 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 
 		Minion_CLI::write('Generating '.json_encode($config));
 
-		$content = $this->feed_content($config['model'], $config['filter'], $config['view']);
+		$filters = is_array($config['filter']) ? $config['filter'] : explode(',', $config['filter']);
+
+		$content = $this->feed_content($config['model'], (array) $filters, $config['view']);
 
 		Minion_CLI::write('Done.');
 
@@ -58,13 +60,16 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 		return $config;
 	}
 
-	public function feed_content($model, $filter, $view)
+	public function feed_content($model, array $filters, $view)
 	{
 		$collection = Jam::all($model);
 
-		if ($filter) 
+		if ($filters) 
 		{
-			$collection->{$filter}();
+			foreach ($filters as $filter) 
+			{
+				$collection->{$filter}();
+			}
 		}
 
 		return View::factory($view, array('collection' => $collection))->render();
