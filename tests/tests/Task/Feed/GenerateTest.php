@@ -102,6 +102,23 @@ CONTENT;
 
 		$task->config('name1');
 	}
+
+	/**
+	 * @covers Task_Feed_Generate::config_exists
+	 */
+	public function test_config_exists()
+	{
+		$task = Minion_Task::factory(array('feed:generate'));
+
+		$this->assertFalse($task->config_exists('name1'));
+
+		$this->env->backup_and_set(array(
+			'jam-generated-feed.name1' => array('model' => 'model1', 'test' => 'test'),
+		));
+
+		$this->assertTrue($task->config_exists('name1'));
+
+	}
 	
 	/**
 	 * @covers Task_Feed_Generate::_execute
