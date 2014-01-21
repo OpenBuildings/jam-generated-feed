@@ -32,6 +32,10 @@ class Kohana_Task_Feed_Generate extends Minion_Task {
 
 		$file = DOCROOT.$config['file'];
 
+		$file = strtr($file, array(
+			":timestamp" => strtotime('now')
+		));
+
 		Minion_CLI::write('Generating '.json_encode($config));
 
 		$filters = is_array($config['filter']) ? $config['filter'] : explode(',', $config['filter']);
