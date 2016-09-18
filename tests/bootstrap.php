@@ -22,14 +22,14 @@ Kohana::modules(array(
 Kohana::$config
 	->load('database')
 		->set('default', array(
-			'type'       => 'MySQL',
+			'type'       => 'PDO',
 			'connection' => array(
-				'hostname'   => 'localhost',
-				'database'   => 'test-jam-generated-feed',
+                'dsn' => 'mysql:host=localhost;dbname=test-jam-generated-feed',
 				'username'   => 'root',
 				'password'   => '',
 				'persistent' => TRUE,
 			),
+            'identifier' => '`',
 			'table_prefix' => '',
 			'charset'      => 'utf8',
 			'caching'      => FALSE,
