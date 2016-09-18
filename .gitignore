@@ -3,4 +3,5 @@
 /vendor/
 /build/
 /modules/
-/nbproject/
+/nbproject/# Ignore local configuration
+/phpunit.xml
